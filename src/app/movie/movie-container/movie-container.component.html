@@ -1,1 +1,5 @@
-<p>movie-container works!</p>
+<!-- Movies -->
+<section class="movie-list">
+  <app-movie-card *ngFor="let movie of movieList" [movieData]="movie">
+  </app-movie-card>
+</section>
