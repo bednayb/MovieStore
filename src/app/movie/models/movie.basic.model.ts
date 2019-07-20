@@ -1,6 +1,8 @@
-export interface MovieBasic {
-  poster_path: string;
-  title: string;
-  release_date: string;
-  genre: string[];
+export class MovieBasic {
+  constructor(
+    public poster_path: string,
+    public title: string,
+    public release_date: string,
+    public genre_ids: number[]
+  ) { }
 }
