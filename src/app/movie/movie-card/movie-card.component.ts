@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { MovieBasic } from './../models/movie.basic.model';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-movie-card',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./movie-card.component.scss']
 })
 export class MovieCardComponent implements OnInit {
+
+  @Input()
+  public movieData: MovieBasic;
 
   constructor() { }
 
