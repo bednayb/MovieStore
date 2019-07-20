@@ -1,6 +1,6 @@
 import { MovieBasic } from './../models/movie.basic.model';
 import { MovieService } from './../movie.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './movie-container.component.html',
   styleUrls: ['./movie-container.component.scss']
 })
-export class MovieContainerComponent implements OnInit {
+export class MovieContainerComponent implements OnInit, OnDestroy {
 
   // Movie
   private movieSub: Subscription;
@@ -23,7 +23,6 @@ export class MovieContainerComponent implements OnInit {
       this.movieList = movieList;
     });
   }
-
 
   ngOnDestroy(): void {
     this.movieSub.unsubscribe();
