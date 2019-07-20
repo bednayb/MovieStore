@@ -1,8 +1,10 @@
 <!-- Movie Card -->
 <article>
   <div *ngIf="movieData">
-    <img [src]="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movieData.poster_path" alt="">
-    <p>{{movieData.title}}</p>
-    <p>{{movieData.release_date}}</p>
+    <img
+      [src]="movieData.poster_path ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movieData.poster_path : 'assets/pictures/empty-poster.png'"
+      alt="poster">
+    <p>{{movieData.title ? movieData.title : 'Unknown'}}</p>
+    <p>{{movieData.release_date ? movieData.release_date : 'Unknown'}}</p>
   </div>
 </article>
