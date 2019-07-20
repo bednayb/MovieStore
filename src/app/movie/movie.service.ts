@@ -62,6 +62,7 @@ export class MovieService {
 
               moviesContainer.push(
                 new MovieBasic(
+                  movie.id,
                   movie.poster_path,
                   movie.title,
                   movie.release_date,
