@@ -1,4 +1,7 @@
+import { MovieBasic } from './../models/movie.basic.model';
+import { MovieService } from './../movie.service';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-movie-container',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MovieContainerComponent implements OnInit {
 
-  constructor() { }
+  // Movie
+  private movieSub: Subscription;
+  public movieList: MovieBasic[];
+
+  constructor(
+    private movieService: MovieService
+  ) { }
 
   ngOnInit() {
+    this.movieSub = this.movieService.movies.subscribe(movieList => {
+      this.movieList = movieList;
+    });
   }
 
+
+  ngOnDestroy(): void {
+    this.movieSub.unsubscribe();
+  }
 }
