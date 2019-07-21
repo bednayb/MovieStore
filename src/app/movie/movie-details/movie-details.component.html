@@ -6,8 +6,7 @@
   </div>
   <div class="data-container">
     <h1>{{movieData.title ? movieData.title : 'Unknown Title'}}</h1>
-    <strong *ngIf="movieData.release_date">{{movieData.release_date | date }}</strong>
-    <strong *ngIf="!movieData.release_date">Unknown Release Date</strong>
+    <p> {{movieData.release_date ? ( movieData.release_date | date:'yyyy' ) : 'Unknown release date'}}</p>
 
     <!-- Series doesnt have tagline -->
     <p *ngIf="movieData.tagline">
@@ -29,7 +28,7 @@
         </span>
       </li>
       <li>Length: {{movieData.runtime ? movieData.runtime + ' mins': 'Unkown'}}</li>
-      <!-- IMDB -->
+      <!-- IMDB at movie, home page at series -->
       <li *ngIf="movieData.page">
         <a [href]="movieData.page" target="blank">More</a>
     </ul>
