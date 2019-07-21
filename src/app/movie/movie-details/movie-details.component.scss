@@ -1,0 +1,28 @@
+ul {
+  list-style: none;
+  padding: 0px;
+}
+
+#movie-detail-popup {
+  max-width: 960px;
+  display: flex;
+  flex-wrap: wrap;
+  background: black;
+  color: white;
+
+  .data-container {
+    width: 450px;
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 998px) {
+
+  #movie-detail-popup {
+    justify-content: center;
+
+    .data-container {
+      width: 300px;
+    }
+  }
+}
