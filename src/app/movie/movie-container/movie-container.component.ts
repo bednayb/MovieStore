@@ -2,6 +2,8 @@ import { MovieBasic } from './../models/movie.basic.model';
 import { MovieService } from './../movie.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-movie-container',
@@ -14,6 +16,11 @@ export class MovieContainerComponent implements OnInit, OnDestroy {
   private movieSub: Subscription;
   public movieList: MovieBasic[];
 
+  // Search
+  public search = new FormControl('', [
+    Validators.minLength(3)
+  ]);
+
   constructor(
     private movieService: MovieService
   ) { }
@@ -22,6 +29,12 @@ export class MovieContainerComponent implements OnInit, OnDestroy {
     this.movieSub = this.movieService.movies.subscribe(movieList => {
       this.movieList = movieList;
     });
+  }
+
+  filterMovies() {
+    if (this.search.valid) {
+      this.movieService.searchMovieList(this.search.value);
+    }
   }
 
   ngOnDestroy(): void {

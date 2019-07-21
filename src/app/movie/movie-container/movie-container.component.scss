@@ -1,3 +1,54 @@
+$primary-color: white;
+$primary-text-size: 24px;
+
+.search {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: auto;
+  margin-bottom: 30px;
+  margin-top: 30px;
+
+  label {
+    color: $primary-color;
+    font-size: 32px;
+    opacity: 0.7;
+    padding-right: 10px;
+  }
+
+  input {
+    width: 100%;
+    max-width: 500px;
+    height: 50px;
+    background: black;
+    padding-left: 10px;
+    color: $primary-color;
+    font-size: $primary-text-size;
+    opacity: 0.7;
+  }
+
+  ::-webkit-input-placeholder {
+    /* Edge */
+    color: $primary-color;
+    font-size: $primary-text-size;
+    opacity: 0.7;
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: $primary-color;
+    font-size: $primary-text-size;
+    opacity: 0.7;
+  }
+
+  ::placeholder {
+    color: $primary-color;
+    font-size: $primary-text-size;
+    opacity: 0.7;
+  }
+}
+
 .movie-list {
   display: flex;
   -webkit-box-pack: justify;
@@ -7,7 +58,14 @@
 
 
 @media screen and (max-width: 700px) {
-  .movie-list{
+  .movie-list {
     justify-content: center;
   }
+}
+
+.empty-list{
+ color: white;
+ opacity: 0.8;
+ font-size: 42px;
+ text-align: center
 }

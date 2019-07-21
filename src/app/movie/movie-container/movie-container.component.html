@@ -1,5 +1,15 @@
+<!-- Search -->
+<div class="search">
+  <label for="">Search</label>
+  <input type="text" placeholder="search..." id="live-search" [formControl]="search" (keyup)="filterMovies()" />
+</div>
+
 <!-- Movies -->
-<section class="movie-list">
+<section *ngIf="movieList.length !== 0; else emptyList" class="movie-list">
   <app-movie-card *ngFor="let movie of movieList" [movieData]="movie">
   </app-movie-card>
 </section>
+
+<ng-template #emptyList>
+  <p class="empty-list">List is empty</p>
+</ng-template>
