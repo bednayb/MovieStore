@@ -18,12 +18,12 @@ export class MovieCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  
+
   }
 
   openDetails(): void {
     this.dialog.open(MovieDetailsComponent, {
-      data: { id: this.movieData.id }
+      data: { id: this.movieData.id, type: this.movieData.type }
     });
 
 

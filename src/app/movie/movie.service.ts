@@ -11,8 +11,6 @@ import { environment } from 'src/environments/environment';
 
 export class MovieService {
 
-
-
   // MovieList
   private _movies = new BehaviorSubject<MovieBasic[]>([]);
 
@@ -34,7 +32,6 @@ export class MovieService {
     private http: HttpClient,
   ) {
     this.getGenreList();
-    // this.searchMovieList();
   }
 
   getGenreList() {
@@ -49,7 +46,6 @@ export class MovieService {
   searchMovieList(filter: string) {
     const urlEncodedFilterText = encodeURI(filter);
     const moviePath = "https://api.themoviedb.org/3/search/multi?api_key=" + environment.API_KEY + "&language=en-US&query=" + urlEncodedFilterText + "&page=1&include_adult=false";
-
     return this.http.get<any>(moviePath)
       .pipe(
         map(
@@ -60,22 +56,24 @@ export class MovieService {
             const moviesContainer = [];
             movieList.map(movie => {
               const temporaryGenreList = [];
-              movie.genre_ids.forEach(id => {
-                this.genreList.forEach((genre) => {
-                  if (genre.id === id) {
-                    temporaryGenreList.push(genre.name);
-                    return;
-                  }
+              if (movie.genre_ids) {
+                movie.genre_ids.forEach(id => {
+                  this.genreList.forEach((genre) => {
+                    if (genre.id === id) {
+                      temporaryGenreList.push(genre.name);
+                      return;
+                    }
+                  });
                 });
-              });
-
+              }
               moviesContainer.push(
                 new MovieBasic(
                   movie.id,
                   movie.poster_path,
-                  movie.title,
-                  movie.release_date,
-                  temporaryGenreList
+                  movie.title ? movie.title : movie.original_name,
+                  movie.release_date ? movie.release_date : movie.first_air_date,
+                  temporaryGenreList,
+                  movie.title ? 'movie' : 'tv'
                 )
               );
             });
@@ -88,13 +86,17 @@ export class MovieService {
       ).subscribe();
   }
 
-  searchMovie(id: number) {
-    const path = "https://api.themoviedb.org/3/movie/" + id + "?api_key=" + environment.API_KEY + "&language=en-US";
+  searchMovie(id: number, type: string) {
+
+    if (type !== 'tv' && type !== 'movie') {
+      return 'not valid type';
+    }
+
+    const path = "https://api.themoviedb.org/3/" + type + '/' + id + "?api_key=" + environment.API_KEY + "&language=en-US";
 
     return this.http.get<any>(path).pipe(
       map(
         movie => {
-
           const genres: string[] = [];
           movie.genres.forEach(element => {
             genres.push(element.name);
@@ -102,31 +104,35 @@ export class MovieService {
 
           // extract countries from production_companies
           const countries: string[] = [];
-          movie.production_countries.forEach(element => {
-            if (element.name && !countries.includes(element.name)) {
-              countries.push(element.name);
-            }
-          });
+          if (movie.production_countries) {
+            movie.production_countries.forEach(element => {
+              if (element.name && !countries.includes(element.name)) {
+                countries.push(element.name);
+              }
+            });
+          }
 
           // extract language
           const languages: string[] = [];
-          movie.spoken_languages.forEach(element => {
-            if (element.name && !countries.includes(element.name)) {
-              languages.push(element.name);
-            }
-          });
-
+          if (movie.spoken_languages) {
+            movie.spoken_languages.forEach(element => {
+              if (element.name && !countries.includes(element.name)) {
+                languages.push(element.name);
+              }
+            });
+          }
+          // data depends on type (series or movie)
           return new MovieExpanded(
             movie.poster_path,
-            movie.title,
-            languages,
+            movie.title ? movie.title : movie.original_name,
+            languages.length !== 0 ? languages : [movie.original_language],
             movie.tagline,
             movie.overview, // it's description
             genres,
-            movie.release_date,
-            movie.imdb_id,
-            movie.runtime,
-            countries
+            movie.release_date ? movie.release_date : movie.first_air_date,
+            movie.imdb_id ? 'https://www.imdb.com/title/' + movie.imdb_id : movie.homepage,
+            movie.runtime ? movie.runtime : movie.episode_run_time ? movie.episode_run_time[0] : null,
+            countries.length !== 0 ? countries : movie.origin_country
           );
         }
       ),
@@ -136,3 +142,9 @@ export class MovieService {
     ).subscribe();
   }
 }
+
+
+
+
+
+

@@ -9,6 +9,7 @@
     <strong *ngIf="movieData.release_date">{{movieData.release_date | date }}</strong>
     <strong *ngIf="!movieData.release_date">Unknown Release Date</strong>
 
+    <!-- Series doesnt have tagline -->
     <p *ngIf="movieData.tagline">
       <strong>{{movieData.tagline }}</strong>
     </p>
@@ -29,8 +30,8 @@
       </li>
       <li>Length: {{movieData.runtime ? movieData.runtime + ' mins': 'Unkown'}}</li>
       <!-- IMDB -->
-      <li>
-        <a [href]="'https://www.imdb.com/title/' + movieData.imdb_id" target="blank">More</a>
+      <li *ngIf="movieData.page">
+        <a [href]="movieData.page" target="blank">More</a>
     </ul>
   </div>
 </section>

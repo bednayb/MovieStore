@@ -7,7 +7,7 @@ export class MovieExpanded {
     public description: string,
     public genres: string[],
     public release_date: string,
-    public imdb_id: string,
+    public page: string,
     public runtime: number,
     public production_countries: string[]
   ) { }

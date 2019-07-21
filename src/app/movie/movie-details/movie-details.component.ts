@@ -22,7 +22,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.movieService.searchMovie(this.data.id);
+    this.movieService.searchMovie(this.data.id, this.data.type);
     this.movieSub = this.movieService.movie.subscribe(movieData => {
       this.movieData = movieData;
     });
