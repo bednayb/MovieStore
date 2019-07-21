@@ -2,7 +2,7 @@ $primary-color: white;
 $primary-text-size: 24px;
 
 .search {
-  width: 100%;
+  width: 90%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -63,9 +63,9 @@ $primary-text-size: 24px;
   }
 }
 
-.empty-list{
- color: white;
- opacity: 0.8;
- font-size: 42px;
- text-align: center
+.empty-list {
+  color: white;
+  opacity: 0.8;
+  font-size: 42px;
+  text-align: center
 }
