@@ -1,3 +1,4 @@
+import { MovieExpanded } from './models/movie.expanded.model';
 import { Genre } from './models/genre.model';
 import { MovieBasic } from './models/movie.basic.model';
 import { Injectable } from "@angular/core";
@@ -11,13 +12,19 @@ import { environment } from 'src/environments/environment';
 export class MovieService {
 
   // TODO: CHANGE PATH to DINAMICALLY
-  private moviePath = "https://api.themoviedb.org/3/search/multi?api_key=" + environment.API_KEY + "&language=en-US&query=Kill%20Bill&page=1&include_adult=false";
+  private moviePath = "https://api.themoviedb.org/3/search/multi?api_key=" + environment.API_KEY + "&language=en-US&query=Star%20Wars&page=1&include_adult=false";
 
   // MovieList
   private _movies = new BehaviorSubject<MovieBasic[]>([]);
 
   get movies() {
     return this._movies.asObservable();
+  }
+
+  // Movie
+  private _movie = new BehaviorSubject<MovieExpanded>(null);
+  get movie() {
+    return this._movie.asObservable();
   }
 
   // Genre
@@ -28,7 +35,7 @@ export class MovieService {
     private http: HttpClient,
   ) {
     this.getGenreList();
-    this.search();
+    this.searchMovieList();
   }
 
   getGenreList() {
@@ -40,7 +47,7 @@ export class MovieService {
     ).subscribe();
   }
 
-  search() {
+  searchMovieList() {
     return this.http.get<any>(this.moviePath)
       .pipe(
         map(
@@ -77,5 +84,53 @@ export class MovieService {
           return this._movies.next(movies);
         })
       ).subscribe();
+  }
+
+  searchMovie(id: number) {
+    const path = "https://api.themoviedb.org/3/movie/" + id + "?api_key=" + environment.API_KEY + "&language=en-US";
+
+    return this.http.get<any>(path).pipe(
+      map(
+        movie => {
+
+          const genres: string[] = [];
+          movie.genres.forEach(element => {
+            genres.push(element.name);
+          });
+
+          // extract countries from production_companies
+          const countries: string[] = [];
+          movie.production_countries.forEach(element => {
+            if (element.name && !countries.includes(element.name)) {
+              countries.push(element.name);
+            }
+          });
+
+          // extract language
+          const languages: string[] = [];
+          movie.spoken_languages.forEach(element => {
+            if (element.name && !countries.includes(element.name)) {
+              languages.push(element.name);
+            }
+          });
+
+          return new MovieExpanded(
+            movie.poster_path,
+            movie.title,
+            languages,
+            movie.tagline,
+            movie.overview, // it's description
+            genres,
+            movie.release_date,
+            movie.imdb_id,
+            movie.runtime,
+            countries
+          );
+        }
+      ),
+      tap(movie => {
+        return this._movie.next(movie);
+      })
+    ).subscribe();
   }
 }
