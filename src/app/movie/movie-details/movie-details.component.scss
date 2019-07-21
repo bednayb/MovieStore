@@ -3,6 +3,10 @@ ul {
   padding: 0px;
 }
 
+a:hover {
+  color: yellow;
+}
+
 #movie-detail-popup {
   max-width: 960px;
   display: flex;
