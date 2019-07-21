@@ -5,6 +5,7 @@ A small web application where the user can search movies or series. Please use G
 ## Set environment
 
 After the  git clone (or download the zip file), please download the node packages (`npm install`)
+
 !!! Please add your MOVIE Database API-KEY at environments/environment and environment/envinronment.prod !!!
 
 ## Development server
