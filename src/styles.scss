@@ -6,9 +6,11 @@ body {
   background: black;
 }
 
-mat-dialog-container {
-  padding: 0px;
-  min-width: 300px;
-  overflow: scroll !important;
-  height: unset !important;
+@media screen and (max-width: 768px) {
+  mat-dialog-container {
+    padding: 0px;
+    min-width: 300px;
+    overflow: scroll !important;
+    height: unset !important;
+  }
 }
