@@ -11,8 +11,7 @@ import { environment } from 'src/environments/environment';
 
 export class MovieService {
 
-  // TODO: CHANGE PATH to DINAMICALLY
-  private moviePath = "https://api.themoviedb.org/3/search/multi?api_key=" + environment.API_KEY + "&language=en-US&query=Star%20Wars&page=1&include_adult=false";
+
 
   // MovieList
   private _movies = new BehaviorSubject<MovieBasic[]>([]);
@@ -35,7 +34,7 @@ export class MovieService {
     private http: HttpClient,
   ) {
     this.getGenreList();
-    this.searchMovieList();
+    // this.searchMovieList();
   }
 
   getGenreList() {
@@ -47,8 +46,11 @@ export class MovieService {
     ).subscribe();
   }
 
-  searchMovieList() {
-    return this.http.get<any>(this.moviePath)
+  searchMovieList(filter: string) {
+    const urlEncodedFilterText = encodeURI(filter);
+    const moviePath = "https://api.themoviedb.org/3/search/multi?api_key=" + environment.API_KEY + "&language=en-US&query=" + urlEncodedFilterText + "&page=1&include_adult=false";
+
+    return this.http.get<any>(moviePath)
       .pipe(
         map(
           movies => movies.results
