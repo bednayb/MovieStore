@@ -4,7 +4,8 @@ import { MovieBasic } from './models/movie.basic.model';
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { HttpClient } from '@angular/common/http';
-import { tap, map } from "rxjs/operators";
+import { tap, map, catchError } from "rxjs/operators";
+
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: "root" })
@@ -82,8 +83,18 @@ export class MovieService {
         ),
         tap(movies => {
           return this._movies.next(movies);
-        })
-      ).subscribe();
+        }),
+        catchError(err => {
+          throw 'error in source. Details: ' + err.status;
+        }),
+      ).subscribe(
+        movie => movie,
+        err => {
+          console.error(err);
+          this._movie.next(null);
+          return err;
+        }
+      );
   }
 
   searchMovie(id: number, type: string) {
@@ -138,8 +149,18 @@ export class MovieService {
       ),
       tap(movie => {
         return this._movie.next(movie);
-      })
-    ).subscribe();
+      }),
+      catchError(err => {
+        throw 'error in source. Details: ' + err.status;
+      }),
+    ).subscribe(
+      movie => movie,
+      err => {
+        console.error(err);
+        this._movie.next(null);
+        return err;
+      }
+    );
   }
 }
 

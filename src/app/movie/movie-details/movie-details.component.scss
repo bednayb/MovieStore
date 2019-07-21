@@ -7,6 +7,13 @@ a:hover {
   color: yellow;
 }
 
+.error {
+  background: white;
+  padding: 30px;
+  font-size: 42px;
+  color: red;
+}
+
 #movie-detail-popup {
   max-width: 960px;
   display: flex;

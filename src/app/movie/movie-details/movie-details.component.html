@@ -1,4 +1,4 @@
-<section *ngIf=movieData id="movie-detail-popup">
+<section *ngIf="movieData; else errorTemplate" id="movie-detail-popup">
   <div>
     <img
       [src]="movieData.poster_path ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movieData.poster_path : 'assets/pictures/empty-poster.png'"
@@ -34,3 +34,7 @@
     </ul>
   </div>
 </section>
+
+<ng-template #errorTemplate>
+  <p class="error">{{error}}</p>
+</ng-template>
